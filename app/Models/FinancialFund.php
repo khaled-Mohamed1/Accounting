@@ -20,6 +20,7 @@ class FinancialFund extends Model
         'financial_amount_USD',
         'financial_ILS',
         'financial_USD',
+        'is_delete'
     ];
 
     public function getCreatedAtAttribute($value)

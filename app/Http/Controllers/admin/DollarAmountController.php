@@ -170,6 +170,7 @@ class DollarAmountController extends Controller
                             - $report->delivery_USD) ;
                         $report->update([
                             'profit_USD'=>$remain_USD,
+                            'profit_ILS'=>$remain_USD * $dollar->USD_amount,
                             'percent'=>$request->percent_value,
                             'numerical'=>'null',
                             'dollar'=>$dollar->USD_amount,
@@ -183,6 +184,7 @@ class DollarAmountController extends Controller
                                 * $dollar->USD_amount) - $report->delivery_ILS;
                         $report->update([
                             'profit_USD'=>$remain_ILS /$dollar->USD_amount ,
+                            'profit_ILS'=>$remain_ILS,
                             'percent'=>$request->percent_value,
                             'numerical'=>'null',
                             'dollar'=>$dollar->USD_amount,
@@ -213,6 +215,7 @@ class DollarAmountController extends Controller
                         $remain_USD = (($report->amount - ($report->amount * $request->percent_value) / 100)
                             / $dollar->USD_amount- $report->delivery_USD) ;
                         $report->update([
+                            'profit_USD'=>$remain_USD,
                             'profit_ILS'=>$remain_USD * $dollar->USD_amount ,
                             'percent'=>$request->percent_value,
                             'numerical'=>'null',
@@ -227,6 +230,7 @@ class DollarAmountController extends Controller
                         $remain_ILS = ($report->amount - ($report->amount * $request->percent_value) / 100)
                             - $report->delivery_ILS;
                         $report->update([
+                            'profit_USD'=>$remain_ILS / $dollar->USD_amount ,
                             'profit_ILS'=>$remain_ILS,
                             'percent'=>$request->percent_value,
                             'numerical'=>'null',
@@ -263,6 +267,7 @@ class DollarAmountController extends Controller
                         $remain_USD = (($report->amount - $request->numerical) - $report->delivery_USD);
                         $report->update([
                             'profit_USD'=>$remain_USD,
+                            'profit_ILS'=>$remain_USD * $dollar->USD_amount,
                             'percent'=>'null',
                             'numerical'=>$request->numerical,
                             'dollar'=>$dollar->USD_amount,
@@ -276,6 +281,7 @@ class DollarAmountController extends Controller
                                 * $dollar->USD_amount) - $report->delivery_ILS;
                         $report->update([
                             'profit_USD'=>$remain_ILS /$dollar->USD_amount ,
+                            'profit_ILS'=>$remain_ILS,
                             'percent'=>'null',
                             'numerical'=>$request->numerical,
                             'dollar'=>$dollar->USD_amount,
@@ -306,6 +312,7 @@ class DollarAmountController extends Controller
                         $remain_USD = (($report->amount - $request->numerical)
                             / $dollar->USD_amount- $report->delivery_USD) ;
                         $report->update([
+                            'profit_USD'=>$remain_USD,
                             'profit_ILS'=>$remain_USD * $dollar->USD_amount ,
                             'percent'=>'null',
                             'numerical'=>$request->numerical,
@@ -319,6 +326,7 @@ class DollarAmountController extends Controller
                         $remain_ILS = ($report->amount - $request->numerical)
                             - $report->delivery_ILS;
                         $report->update([
+                            'profit_USD'=>$remain_ILS / $dollar->USD_amount,
                             'profit_ILS'=>$remain_ILS,
                             'percent'=>'null',
                             'numerical'=>$request->numerical,
@@ -339,6 +347,7 @@ class DollarAmountController extends Controller
                         $remain_USD = ($remain_USD - ($remain_USD *$request->percent_value) / 100) - $report->amount;
                         $report->update([
                             'profit_USD'=>$remain_USD,
+                            'profit_ILS'=>$remain_USD * $dollar->USD_amount,
                             'percent'=>$request->percent_value,
                             'numerical'=>'null',
                             'dollar'=>$dollar->USD_amount,
@@ -352,6 +361,7 @@ class DollarAmountController extends Controller
                         $remain_USD = ($report->delivery_USD - ($report->delivery_USD *$request->percent_value) / 100) - $report->amount;
                         $report->update([
                             'profit_USD'=>$remain_USD,
+                            'profit_ILS'=>$remain_USD * $dollar->USD_amount,
                             'percent'=>$request->percent_value,
                             'numerical'=>'null',
                             'dollar'=>$dollar->USD_amount,
@@ -365,6 +375,7 @@ class DollarAmountController extends Controller
                         $remain_USD = ($remain_USD - ($remain_USD *$request->percent_value) / 100) - $report->amount;
                         $report->update([
                             'profit_USD'=>$remain_USD ,
+                            'profit_ILS'=>$remain_USD * $dollar->USD_amount,
                             'percent'=>$request->percent_value,
                             'numerical'=>'null',
                             'dollar'=>$dollar->USD_amount,
@@ -380,6 +391,7 @@ class DollarAmountController extends Controller
                         $remain_ILS = ($remain_ILS - ($remain_ILS * $request->percent_value) / 100) - $report->amount;
 
                         $report->update([
+                            'profit_USD'=>$remain_ILS / $dollar->USD_amount,
                             'profit_ILS'=>$remain_ILS,
                             'percent'=>$request->percent_value,
                             'numerical'=>'null',
@@ -395,6 +407,7 @@ class DollarAmountController extends Controller
                         $remain_ILS =     ($remain_ILS - ($remain_ILS * $request->percent_value) / 100)
                             - $report->amount;
                         $report->update([
+                            'profit_USD'=>$remain_ILS / $dollar->USD_amount,
                             'profit_ILS'=>$remain_ILS  ,
                             'percent'=>$request->percent_value,
                             'numerical'=>'null',
@@ -408,6 +421,7 @@ class DollarAmountController extends Controller
                         $remain_ILS = ($report->delivery_ILS - ($report->delivery_ILS * $request->percent_value) / 100)
                             - $report->amount;
                         $report->update([
+                            'profit_USD'=>$remain_ILS / $dollar->USD_amount,
                             'profit_ILS'=>$remain_ILS,
                             'percent'=>$request->percent_value,
                             'numerical'=>'null',
@@ -431,6 +445,7 @@ class DollarAmountController extends Controller
                             -  $request->numerical) - $report->amount ;
                         $report->update([
                             'profit_USD'=>$remain_USD,
+                            'profit_ILS'=>$remain_USD *$dollar->USD_amount ,
                             'percent'=>'null',
                             'numerical'=>$request->numerical,
                             'dollar'=>$dollar->USD_amount,
@@ -443,6 +458,7 @@ class DollarAmountController extends Controller
 
                         $report->update([
                             'profit_USD'=>$remain_USD,
+                            'profit_ILS'=>$remain_USD *$dollar->USD_amount ,
                             'percent'=>'null',
                             'numerical'=>$request->numerical,
                             'dollar'=>$dollar->USD_amount,
@@ -456,6 +472,7 @@ class DollarAmountController extends Controller
                         $remain_USD = ($remain_USD - $request->numerical) - $report->amount;
                         $report->update([
                             'profit_USD'=>$remain_USD ,
+                            'profit_ILS'=>$remain_USD * $dollar->USD_amount ,
                             'percent'=>'null',
                             'numerical'=>$request->numerical,
                             'dollar'=>$dollar->USD_amount,
@@ -470,6 +487,7 @@ class DollarAmountController extends Controller
                         $remain_ILS = ($report->delivery_ILS + ($report->delivery_USD * $dollar->USD_amount));
                         $remain_ILS = ($remain_ILS - $request->numerical) - $report->amount;
                         $report->update([
+                            'profit_USD'=>$remain_ILS / $dollar->USD_amount,
                             'profit_ILS'=>$remain_ILS,
                             'percent'=>'null',
                             'numerical'=>$request->numerical,
@@ -483,6 +501,7 @@ class DollarAmountController extends Controller
                     }elseif($report->delivery_ILS == 0){
                         $remain_ILS = (($report->delivery_USD * $dollar->USD_amount) - $request->numerical) - $report->amount;
                         $report->update([
+                            'profit_USD'=>$remain_ILS / $dollar->USD_amount,
                             'profit_ILS'=>$remain_ILS ,
                             'percent'=>'null',
                             'numerical'=>$request->numerical,
@@ -496,6 +515,7 @@ class DollarAmountController extends Controller
                         $remain_ILS = ($report->delivery_ILS - $request->numerical)
                             - $report->amount;
                         $report->update([
+                            'profit_USD'=>$remain_ILS / $dollar->USD_amount,
                             'profit_ILS'=>$remain_ILS,
                             'percent'=>'null',
                             'numerical'=>$request->numerical,

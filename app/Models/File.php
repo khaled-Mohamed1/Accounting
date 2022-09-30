@@ -21,7 +21,8 @@ class File extends Model
         'file_NO',
         'outgoing',
         'incoming',
-        'updated_by'
+        'updated_by',
+        'is_delete'
     ];
 
     public function UserFile(): \Illuminate\Database\Eloquent\Relations\BelongsTo

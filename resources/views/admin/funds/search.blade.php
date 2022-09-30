@@ -81,23 +81,27 @@
                             </thead>
                             <tbody>
                             @foreach($funds as $key => $fund)
-                                <tr>
+                                <tr class="{{$fund->is_delete == 1 ? 'table-danger': ''}}">
                                     <th>{{++$key}}</th>
                                     <td>{{$fund->financial_USD}}</td>
-                                    <td class="table-active">{{$fund->financial_amount_USD}}</td>
+                                    <td class="{{$fund->is_delete == 1 ? '': 'table-active'}}">{{$fund->financial_amount_USD}}</td>
                                     <td>{{$fund->financial_ILS}}</td>
-                                    <td class="table-active">{{$fund->financial_amount_ILS}}</td>
+                                    <td class="{{$fund->is_delete == 1 ? '': 'table-active'}}">{{$fund->financial_amount_ILS}}</td>
                                     <td>{{$fund->created_at}}</td>
-                                    <td>
-                                        <a href="{{route('admin.edit-fund',$fund->id)}}" class="btn btn-primary"><i class="las la-edit"></i></a>
-                                    </td>
-                                    <td>
-                                        <form action="{{route('admin.delete-fund', $fund->id)}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger" onclick="return confirm('هل تريد هذا الصندوق')" type="submit"><i class="las la-times"></i></button>
-                                        </form>
-                                    </td>
+                                    @if($fund->is_delete == 1)
+                                        <td colspan="2" class="text-center">تم الحذف</td>
+                                    @else
+                                        <td>
+                                            <a href="{{route('admin.edit-fund',$fund->id)}}" class="btn btn-primary"><i class="las la-edit"></i></a>
+                                        </td>
+                                        <td>
+                                            <form action="{{route('admin.delete-fund', $fund->id)}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger" onclick="return confirm('هل تريد هذا الصندوق')" type="submit"><i class="las la-times"></i></button>
+                                            </form>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>

@@ -92,21 +92,27 @@
                             </thead>
                             <tbody>
                             @foreach($loans as $key => $loan)
-                                <tr>
+                                <tr class="{{$loan->is_delete == 1 ? 'table-danger': ''}}">
                                     <th>{{++$key}}</th>
                                     <td>{{$loan->loan_amount}}</td>
-                                    <td class="table-active">{{$loan->amount}}</td>
+                                    <td class="{{$loan->is_delete == 1?'':'table-active'}}">{{$loan->amount}}</td>
                                     <td>{{$loan->created_at}}</td>
-                                    <td>
-                                        <a href="{{route('admin.edit-loan_fund',$loan->id)}}" class="btn btn-primary"><i class="las la-edit"></i></a>
-                                    </td>
-                                    <td>
-                                        <form action="{{route('admin.delete-loan_fund', $loan->id)}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger" onclick="return confirm('هل تريد هذا الصندوق')" type="submit"><i class="las la-times"></i></button>
-                                        </form>
-                                    </td>
+                                    @if($loan->is_delete == 1)
+                                        <td colspan="2" class="text-center">تم الحذف</td>
+                                    @else
+                                        <td>
+                                            <a href="{{route('admin.edit-loan_fund',$loan->id)}}" class="btn btn-primary"><i class="las la-edit"></i></a>
+                                        </td>
+                                        <td>
+                                            <form action="{{route('admin.delete-loan_fund', $loan->id)}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger" onclick="return confirm('هل تريد هذا الصندوق')" type="submit"><i class="las la-times"></i></button>
+                                            </form>
+                                        </td>
+
+                                    @endif
+
                                 </tr>
                             @endforeach
                             </tbody>

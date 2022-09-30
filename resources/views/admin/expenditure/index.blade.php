@@ -37,10 +37,10 @@
                                 <tr>
                                     <th scope="col">مجموع</th>
                                     <td>
-                                        {{$expenditures->sum('amount_spent_USD')}}
+                                        {{$expenditures->where('is_delete',0)->sum('amount_spent_USD')}}
                                     </td>
                                     <td>
-                                        {{$expenditures->sum('amount_spent_ILS')}}
+                                        {{$expenditures->where('is_delete',0)->sum('amount_spent_ILS')}}
                                     </td>
                                 </tr>
 
@@ -127,22 +127,26 @@
                             </thead>
                             <tbody>
                             @foreach($expenditures as $key => $expenditure)
-                                <tr>
+                                <tr class="{{$expenditure->is_delete == 1 ? 'table-danger': ''}}">
                                     <th>{{++$key}}</th>
                                     <td>{{$expenditure->amount_spent_ILS}}</td>
                                     <td>{{$expenditure->amount_spent_USD}}</td>
                                     <td>{{$expenditure->description}}</td>
                                     <td>{{$expenditure->created_at}}</td>
-                                    <td>
-                                        <a href="{{route('admin.edit-expenditure',$expenditure->id)}}" class="btn btn-primary"><i class="las la-edit"></i></a>
-                                    </td>
-                                    <td>
-                                        <form action="{{route('admin.delete-expenditure', $expenditure->id)}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger" onclick="return confirm('هل تريد هذا المصروف')" type="submit"><i class="las la-times"></i></button>
-                                        </form>
-                                    </td>
+                                    @if($expenditure->is_delete == 1)
+                                        <td colspan="2" class="text-center">تم الحذف</td>
+                                    @else
+                                        <td>
+                                            <a href="{{route('admin.edit-expenditure',$expenditure->id)}}" class="btn btn-primary"><i class="las la-edit"></i></a>
+                                        </td>
+                                        <td>
+                                            <form action="{{route('admin.delete-expenditure', $expenditure->id)}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger" onclick="return confirm('هل تريد هذا المصروف')" type="submit"><i class="las la-times"></i></button>
+                                            </form>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>

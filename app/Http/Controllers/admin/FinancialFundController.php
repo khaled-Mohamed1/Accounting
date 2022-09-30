@@ -160,7 +160,10 @@ class FinancialFundController extends Controller
      */
     public function delete($id)
     {
-        FinancialFund::findorFail($id)->delete();
+        $fund = FinancialFund::findorFail($id);
+        $fund->update([
+            'is_delete'=>true
+        ]);
         return redirect()->route('admin.funds.index')->with('danger', 'تم حذف هذا القرض');
     }
 

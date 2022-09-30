@@ -119,7 +119,8 @@ class LoanFundController extends Controller
                     ]
                 );
                 $loan->update([
-                    'amount' => $request->loan_amount,
+                    'amount' => $loan->amount + $request->loan_amount,
+                    'loan_amount' => $loan->loan_amount +  $request->loan_amount,
                 ]);
             }
 
@@ -138,7 +139,9 @@ class LoanFundController extends Controller
      */
     public function delete($id)
     {
-        LoanFund::findorFail($id)->delete();
+        LoanFund::findorFail($id)->update([
+            'is_delete'=>true
+        ]);
         return redirect()->route('admin.loan_funds.index')->with('danger', 'تم حذف هذا القرض');
     }
 

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->float('financial_amount_USD')->default(0);
             $table->float('financial_ILS')->default(0);
             $table->float('financial_USD')->default(0);
+            $table->boolean('is_delete')->default(false);
             $table->timestamps();
         });
     }

@@ -16,7 +16,7 @@
         <th class="table-active" scope="col" colspan="2">سعر الدولار</th>
         <th class="table-active" scope="col" colspan="2">نسبة مئوية</th>
         <th class="table-active" scope="col" colspan="2">قيمة رقمية</th>
-        @foreach($reports as $key => $report)
+        @foreach($reports->where('is_delete',0) as $key => $report)
 
             @if($report->updated_by == null)
             @else
@@ -28,7 +28,7 @@
 
     </thead>
     <tbody>
-    @foreach($reports as $key => $report)
+    @foreach($reports->where('is_delete',0) as $key => $report)
         <tr>
             <th>{{++$key}}</th>
             <td>{{$report->UserReport->name}}</td>

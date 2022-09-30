@@ -28,6 +28,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">مجموع الصندوق</th>
+                                    <th scope="col">مجموع الوارد</th>
                                     <th scope="col">المدفوع</th>
                                     <th scope="col">الباقي</th>
                                 </tr>
@@ -40,11 +41,14 @@
                                     <td>
                                         {{$loans->sum('loan_amount')}}
                                     </td>
+                                    <td>
+                                        {{$files->where('is_delete',0)->sum('incoming')}}
+                                    </td>
                                     <td class="table-active">
-                                        {{$files->sum('outgoing')}}
+                                        {{$files->where('is_delete',0)->sum('outgoing')}}
                                     </td>
                                     <td>
-                                        {{$loans->sum('loan_amount') - $files->sum('outgoing')}}
+                                        {{$loans->where('is_delete',0)->sum('loan_amount') - $files->where('is_delete',0)->sum('outgoing')}}
                                     </td>
                                 </tr>
 
@@ -71,11 +75,11 @@
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <a class="navbar-brand btn btn-secondary text-bg-light" type="button" href="{{route('user.files.index')}}">الأقساط</a>
+                        <a class="navbar-brand btn btn-secondary text-bg-light" type="button" href="{{route('user.files.index')}}">معاملات التقسيط</a>
                         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{route('user.reports.index')}}">الحوالات</a>
+                                    <a class="nav-link active" aria-current="page" href="{{route('user.reports.index')}}">الحواالات المالية</a>
                                 </li>
                             </ul>
                         </div>
@@ -90,7 +94,7 @@
                     <div class="card-header d-flex justify-content-between">
                         <h5></h5>
                         <form class="d-flex">
-                            <a href="{{route('user.file.create')}}" class="btn btn-success" type="button">اضافة</a>
+                            <a href="{{route('user.file.create')}}" class="btn btn-success" type="button">تنفيذ المعاملة</a>
                         </form>
                     </div>
 
@@ -107,10 +111,10 @@
                                 <th scope="col">#</th>
                                 <th scope="col">اسم الموظف</th>
                                 <th scope="col">تاريخ العملية</th>
-                                <th scope="col">رقم القسط</th>
+                                <th scope="col">رقم الملف</th>
                                 <th scope="col">اسم الزبون</th>
                                 <th scope="col">الصادر</th>
-                                <th scope="col">الوارد</th>
+                                <th scope="col">العائد</th>
                                 @if(auth()->user()->c_update == true)
                                     <th scope="col">تعديل</th>
                                 @else
@@ -123,7 +127,7 @@
 
                             </thead>
                             <tbody>
-                            @foreach($files as $key => $file)
+                            @foreach($files->where('is_delete',0) as $key => $file)
                                 <tr>
                                     <th>{{++$key}}</th>
                                     <td>
@@ -164,7 +168,7 @@
                             @endforeach
                             </tbody>
                         </table>
-                            {{$files->links()}}
+                        {{$files->links()}}
                     </div>
                 </div>
             </div>

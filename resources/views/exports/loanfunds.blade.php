@@ -9,7 +9,7 @@
 
     </thead>
     <tbody>
-    @foreach($loans as $key => $loan)
+    @foreach($loans->where('is_delete',0) as $key => $loan)
         <tr>
             <th>{{++$key}}</th>
             <td>{{$loan->loan_amount}}</td>

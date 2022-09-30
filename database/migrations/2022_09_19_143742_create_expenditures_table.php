@@ -18,6 +18,7 @@ return new class extends Migration
             $table->float('amount_spent_USD')->default('0');
             $table->float('amount_spent_ILS')->default('0');
             $table->string('description')->nullable();
+            $table->boolean('is_delete')->default(false);
             $table->timestamps();
         });
     }

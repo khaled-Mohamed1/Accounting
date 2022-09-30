@@ -57,7 +57,7 @@
                                         </select>
 
                                         @error('remittance_type')
-                                            <span class="invalid-feedback" role="alert">
+                                        <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
@@ -112,7 +112,7 @@
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="delivery_USD" class="col-md-4 col-form-label text-md-end">{{ __('المبلغ بالدولار') }}</label>
+                                    <label for="delivery_USD" class="col-md-4 col-form-label text-md-end delivery_USD">{{ __('المبلغ بالدولار') }}</label>
 
                                     <div class="col-md-6">
                                         <input id="delivery_USD" type="text" class="form-control @error('delivery_USD') is-invalid @enderror" name="delivery_USD" value="{{ old('delivery_USD') }}">
@@ -126,7 +126,7 @@
                                 </div>
 
                                 <div class="row mb-3">
-                                    <label for="delivery_ILS" class="col-md-4 col-form-label text-md-end">{{ __('المبلغ بالشيكل') }}</label>
+                                    <label for="delivery_ILS" class="col-md-4 col-form-label text-md-end delivery_ILS">{{ __('المبلغ بالشيكل') }}</label>
 
                                     <div class="col-md-6">
                                         <input id="delivery_ILS" type="text" class="form-control @error('delivery_ILS') is-invalid @enderror" name="delivery_ILS" value="{{ old('delivery_ILS') }}">
@@ -152,15 +152,27 @@
                 </div>
             </div>
 
-            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-                    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
-            </script>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
             <script type="text/javascript">
                 $("document").ready(function() {
                     setTimeout(() => {
                         $("div.alert").remove();
                     }, 4000);
+
+                    $("#remittance_type").on("change", function() {
+                        if ($(this).val() === 'صادر') {
+                            console.log($(this).val())
+                            $('.delivery_USD').html('تسليم بالدولار')
+                            $('.delivery_ILS').html('تسليم بالشيكل')
+                        } else {
+                            console.log($(this).val())
+
+                            $('.delivery_USD').html('استلمنا بالدولار')
+                            $('.delivery_ILS').html('استلمنا بالشيكل')
+                        }
+                    })
                 });
             </script>
 @endsection

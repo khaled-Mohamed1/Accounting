@@ -46,7 +46,7 @@ class ReportController extends Controller
     {
 
         $fund = FinancialFund::whereDate('created_at', Carbon::today())
-            ->get();
+            ->where('is_delete',0)->get();
         if ($fund->isEmpty()) {
             FinancialFund::create();
         }
@@ -112,7 +112,7 @@ class ReportController extends Controller
 
             if(!empty($request->input('delivery_USD')))
             {
-                $allfund_USD = FinancialFund::whereDate('created_at', Carbon::today())->latest()->get();
+                $allfund_USD = FinancialFund::whereDate('created_at', Carbon::today())->where('is_delete',0)->latest()->get();
                 $remain_USD = $request->delivery_USD;
                 foreach ($allfund_USD as $key => $fund){
                     $fund->decrement('financial_amount_USD', $remain_USD);
@@ -122,7 +122,7 @@ class ReportController extends Controller
 
             if(!empty($request->input('delivery_ILS')))
             {
-                $allfund_ILS = FinancialFund::whereDate('created_at', Carbon::today())->latest()->get();
+                $allfund_ILS = FinancialFund::whereDate('created_at', Carbon::today())->where('is_delete',0)->latest()->get();
                 $remain_ILS = $request->delivery_ILS;
                 foreach ($allfund_ILS as $key => $fund){
                     $fund->decrement('financial_amount_ILS', $remain_ILS);
@@ -146,7 +146,7 @@ class ReportController extends Controller
 
         }elseif($request->remittance_type == 'وارد'){
             $fund = FinancialFund::whereDate('created_at', Carbon::today())
-                ->get()->last();
+                ->where('is_delete',0)->get()->last();
             if(!empty($request->input('delivery_USD')))
             {
                 $fund->increment('financial_amount_USD', $request->delivery_USD);
@@ -240,7 +240,7 @@ class ReportController extends Controller
             if($request->remittance_type == 'صادر'){
                 if($request->delivery_USD != $report->delivery_USD){
                     $fund = FinancialFund::whereDate('created_at', Carbon::today())
-                        ->get()->last();
+                        ->where('is_delete',0)->get()->last();
                     if($request->delivery_USD > $report->delivery_USD){
                         $remain_USD = $request->delivery_USD - $report->delivery_USD;
                         $fund->decrement('financial_amount_USD', $remain_USD);
@@ -254,7 +254,7 @@ class ReportController extends Controller
 
                 if($request->delivery_ILS != $report->delivery_ILS){
                     $fund = FinancialFund::whereDate('created_at', Carbon::today())
-                        ->get()->last();
+                        ->where('is_delete',0)->get()->last();
                     if($request->delivery_ILS > $report->delivery_ILS){
                         $remain_ILS = $request->delivery_ILS - $report->delivery_ILS;
                         $fund->decrement('financial_amount_ILS', $remain_ILS);
@@ -269,7 +269,7 @@ class ReportController extends Controller
             }elseif($request->remittance_type == 'وارد'){
                 if($request->delivery_USD != $report->delivery_USD){
                     $fund = FinancialFund::whereDate('created_at', Carbon::today())
-                        ->get()->last();
+                        ->where('is_delete',0)->get()->last();
                     if($request->delivery_USD > $report->delivery_USD){
                         $remain_USD = $request->delivery_USD - $report->delivery_USD;
                         $fund->increment('financial_amount_USD', $remain_USD);
@@ -283,7 +283,7 @@ class ReportController extends Controller
 
                 if($request->delivery_ILS != $report->delivery_ILS){
                     $fund = FinancialFund::whereDate('created_at', Carbon::today())
-                        ->get()->last();
+                        ->where('is_delete',0)->get()->last();
                     if($request->delivery_ILS > $report->delivery_ILS){
                         $remain_ILS = $request->delivery_ILS - $report->delivery_ILS;
                         $fund->increment('financial_amount_ILS', $remain_ILS);
@@ -355,7 +355,7 @@ class ReportController extends Controller
             $report = Report::findorFail($id);
             if ($report->remittance_type == 'صادر') {
                 $fund = FinancialFund::whereDate('created_at', Carbon::today())
-                    ->get()->last();
+                    ->where('is_delete',0)->get()->last();
                 $fund->increment('financial_amount_USD', $report->delivery_USD);
                 $fund->increment('financial_amount_ILS', $report->delivery_ILS);
 //                if($report->currency_type == 'دولار'){
@@ -365,10 +365,12 @@ class ReportController extends Controller
 //                if($report->currency_type == 'شيكل'){
 //                    $fund->increment('financial_amount_ILS', $report->amount);
 //                }
-                $report->delete();
+                $report->update([
+                    'is_delete'=>true
+                ]);
             } elseif ($report->remittance_type == 'وارد') {
                 $fund = FinancialFund::whereDate('created_at', Carbon::today())
-                    ->get()->last();
+                    ->where('is_delete',0)->get()->last();
                 $fund->decrement('financial_amount_USD', $report->delivery_USD);
                 $fund->decrement('financial_amount_ILS', $report->delivery_ILS);
 //                if($report->currency_type == 'دولار'){
@@ -378,7 +380,9 @@ class ReportController extends Controller
 //                if($report->currency_type == 'شيكل'){
 //                    $fund->decrement('financial_amount_ILS', $report->amount);
 //                }
-                $report->delete();
+                $report->update([
+                    'is_delete'=>true
+                ]);
             }
             return redirect()->route('user.reports.index')->with('danger', 'تم حذف هذا التقرير');
         }else{

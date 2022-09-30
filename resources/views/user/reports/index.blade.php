@@ -37,31 +37,31 @@
 
                                 <tr>
                                     <th scope="col">دولار</th>
-                                    <th colspan="2">{{$funds->sum('financial_USD')}}</th>
-                                    <th class="table-active">{{$funds->sum('financial_amount_USD') }}</th>
+                                    <th colspan="2">{{$funds->where('is_delete',0)->sum('financial_USD')}}</th>
+                                    <th class="table-active">{{$funds->where('is_delete',0)->sum('financial_amount_USD') }}</th>
                                 </tr>
 
                                 <tr>
                                     <th scope="col">شيكل</th>
-                                    <th colspan="2">{{$funds->sum('financial_ILS')}}</th>
-                                    <th class="table-active">{{$funds->sum('financial_amount_ILS') }}</th>
+                                    <th colspan="2">{{$funds->where('is_delete',0)->sum('financial_ILS')}}</th>
+                                    <th class="table-active">{{$funds->where('is_delete',0)->sum('financial_amount_ILS') }}</th>
                                 </tr>
 
-{{--                                <tr>--}}
-{{--                                    <th scope="col">دولار</th>--}}
-{{--                                    <th colspan="2">{{$funds->sum('financial_USD')}}</th>--}}
-{{--                                    <th class="table-active">{{$funds->sum('financial_USD')--}}
-{{--                                        - $reports->where('remittance_type','صادر')->where('currency_type','دولار')->sum('amount')--}}
-{{--                                         + $reports->where('remittance_type','وارد')->where('currency_type','دولار')->sum('amount')}}</th>--}}
-{{--                                </tr>--}}
+                                {{--                                <tr>--}}
+                                {{--                                    <th scope="col">دولار</th>--}}
+                                {{--                                    <th colspan="2">{{$funds->sum('financial_USD')}}</th>--}}
+                                {{--                                    <th class="table-active">{{$funds->sum('financial_USD')--}}
+                                {{--                                        - $reports->where('remittance_type','صادر')->where('currency_type','دولار')->sum('amount')--}}
+                                {{--                                         + $reports->where('remittance_type','وارد')->where('currency_type','دولار')->sum('amount')}}</th>--}}
+                                {{--                                </tr>--}}
 
-{{--                                <tr>--}}
-{{--                                    <th scope="col">شيكل</th>--}}
-{{--                                    <th colspan="2">{{$funds->sum('financial_ILS')}}</th>--}}
-{{--                                    <th class="table-active">{{$funds->sum('financial_ILS')--}}
-{{--                                        - $reports->where('remittance_type','صادر')->where('currency_type','شيكل')->sum('amount')--}}
-{{--                                         + $reports->where('remittance_type','وارد')->where('currency_type','شيكل')->sum('amount')}}</th>--}}
-{{--                                </tr>--}}
+                                {{--                                <tr>--}}
+                                {{--                                    <th scope="col">شيكل</th>--}}
+                                {{--                                    <th colspan="2">{{$funds->sum('financial_ILS')}}</th>--}}
+                                {{--                                    <th class="table-active">{{$funds->sum('financial_ILS')--}}
+                                {{--                                        - $reports->where('remittance_type','صادر')->where('currency_type','شيكل')->sum('amount')--}}
+                                {{--                                         + $reports->where('remittance_type','وارد')->where('currency_type','شيكل')->sum('amount')}}</th>--}}
+                                {{--                                </tr>--}}
 
 
                                 </tbody>
@@ -87,14 +87,14 @@
 
                                 <tr>
                                     <th scope="col">صادر</th>
-                                    <th colspan="2">{{$reports->where('remittance_type','صادر')->sum('delivery_USD')}}</th>
-                                    <th colspan="2">{{$reports->where('remittance_type','صادر')->sum('delivery_ILS')}}</th>
+                                    <th colspan="2">{{$reports->where('remittance_type','صادر')->where('is_delete',0)->sum('delivery_USD')}}</th>
+                                    <th colspan="2">{{$reports->where('remittance_type','صادر')->where('is_delete',0)->sum('delivery_ILS')}}</th>
                                 </tr>
 
                                 <tr>
                                     <th scope="col">وارد</th>
-                                    <th colspan="2">{{$reports->where('remittance_type','وارد')->sum('delivery_USD')}}</th>
-                                    <th colspan="2">{{$reports->where('remittance_type','وارد')->sum('delivery_ILS')}}</th>
+                                    <th colspan="2">{{$reports->where('remittance_type','وارد')->where('is_delete',0)->sum('delivery_USD')}}</th>
+                                    <th colspan="2">{{$reports->where('remittance_type','وارد')->where('is_delete',0)->sum('delivery_ILS')}}</th>
                                 </tr>
 
 
@@ -120,11 +120,11 @@
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <a class="navbar-brand btn btn-secondary text-bg-light" type="button" href="{{route('user.reports.index')}}">الحوالات</a>
+                        <a class="navbar-brand btn btn-secondary text-bg-light" type="button" href="{{route('user.reports.index')}}">الحوالات المالية</a>
                         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{route('user.files.index')}}">الأقساط</a>
+                                    <a class="nav-link active" aria-current="page" href="{{route('user.files.index')}}">معاملات التقسيط</a>
                                 </li>
                             </ul>
                         </div>
@@ -137,9 +137,9 @@
                 <div class="card">
 
                     <div class="card-header d-flex justify-content-between">
-                        <h5></h5>
+                        <h5>صادر من الصندوق</h5>
                         <form class="d-flex">
-                            <a href="{{route('user.report.create')}}" class="btn btn-success" type="button">اضافة</a>
+                            <a href="{{route('user.report.create')}}" class="btn btn-success" type="button">تنفيذ معاملة</a>
                         </form>
                     </div>
 
@@ -175,7 +175,7 @@
 
                             </thead>
                             <tbody>
-                            @foreach($reports->where('remittance_type','صادر') as $key => $report)
+                            @foreach($reports->where('remittance_type','صادر')->where('is_delete',0) as $key => $report)
                                 <tr>
                                     <th>{{++$key}}</th>
                                     <td>
@@ -235,7 +235,7 @@
                 <div class="card">
 
                     <div class="card-header d-flex justify-content-between">
-                        <h5>الوارد</h5>
+                        <h5>وارد الي الصندوق</h5>
                     </div>
 
                     <div class="card-body">
@@ -251,8 +251,8 @@
                                 <th scope="col">نوع المعاملة</th>
                                 <th scope="col">نوع العملة</th>
                                 <th scope="col">المبلغ</th>
-                                <th scope="col">تسليم بالدولار</th>
-                                <th scope="col">تسليم بالشيكل</th>
+                                <th scope="col">الاستلام بالدولار</th>
+                                <th scope="col">الاستلام بالشيكل</th>
                                 @if(auth()->user()->c_update == true)
                                     <th scope="col">تعديل</th>
                                 @else
@@ -265,7 +265,7 @@
 
                             </thead>
                             <tbody>
-                            @foreach($reports->where('remittance_type','وارد') as $key => $report)
+                            @foreach($reports->where('remittance_type','وارد')->where('is_delete',0) as $key => $report)
                                 <tr>
                                     <th>{{++$key}}</th>
                                     <td>

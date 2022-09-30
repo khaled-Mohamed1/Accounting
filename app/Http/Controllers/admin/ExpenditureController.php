@@ -184,7 +184,9 @@ class ExpenditureController extends Controller
      */
     public function delete($id)
     {
-        Expenditure::findorFail($id)->delete();
+        Expenditure::findorFail($id)->update([
+            'is_delete'=>true
+        ]);
         return redirect()->route('admin.expenditures.index')->with('danger', 'تم حذف هذا المصروف');
     }
 

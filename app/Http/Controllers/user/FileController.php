@@ -75,14 +75,14 @@ class FileController extends Controller
 
         if(!empty($request->input('outgoing'))){
 
-             LoanFund::whereDate('created_at', Carbon::today())->get()
+             LoanFund::whereDate('created_at', Carbon::today())->where('is_delete',0)->get()
                  ->last()->decrement('amount', $request->outgoing);
         }
 
-//        if(!empty($request->input('incoming'))) {
-//            LoanFund::whereDate('created_at', Carbon::today())->get()
-//                ->last()->increment('amount', $request->incoming);
-//        }
+        if(!empty($request->input('incoming'))) {
+            LoanFund::whereDate('created_at', Carbon::today())->where('is_delete',0)->get()
+                ->last()->increment('amount', $request->incoming);
+        }
 
         File::create([
             'user_id' => auth()->user()->id,
@@ -157,7 +157,7 @@ class FileController extends Controller
             if(!empty($request->input('outgoing'))) {
                 if($request->outgoing != $file->outgoing){
                     $loan = LoanFund::whereMonth('created_at', date('m'))
-                        ->whereYear('created_at', date('Y'))->get()->last();
+                        ->whereYear('created_at', date('Y'))->where('is_delete',0)->get()->last();
                     if($request->outgoing > $file->outgoing){
                         $remain_outgoing = $request->outgoing - $file->outgoing;
                         $loan->decrement('amount', $remain_outgoing);
@@ -174,7 +174,7 @@ class FileController extends Controller
             if(!empty($request->input('incoming'))) {
                 if($request->incoming != $file->incoming){
                     $loan = LoanFund::whereMonth('created_at', date('m'))
-                        ->whereYear('created_at', date('Y'))->get()->last();
+                        ->whereYear('created_at', date('Y'))->where('is_delete',0)->get()->last();
                     if($request->incoming > $file->incoming){
                         $remain_incoming = $request->incoming - $file->incoming;
                         $loan->increment('amount', $remain_incoming);
@@ -212,10 +212,12 @@ class FileController extends Controller
         if(auth()->user()->c_delete){
             $file = File::findorFail($id);
             $loan = LoanFund::whereMonth('created_at', date('m'))
-                ->whereYear('created_at', date('Y'))->get()->last();
+                ->whereYear('created_at', date('Y'))->where('is_delete',0)->get()->last();
             $loan->increment('amount', $file->outgoing);
             $loan->decrement('amount', $file->incoming);
-            $file->delete();
+            $file->update([
+                'is_delete'=>true
+            ]);
 
             return redirect()->route('user.files.index')->with('danger', 'تم حذف القسط المالي');
         }else{

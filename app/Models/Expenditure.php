@@ -14,6 +14,7 @@ class Expenditure extends Model
         'amount_spent_USD',
         'amount_spent_ILS',
         'description',
+        'is_delete'
     ];
 
     public function getCreatedAtAttribute($value)

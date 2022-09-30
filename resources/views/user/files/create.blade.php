@@ -33,7 +33,7 @@
                                 @csrf
 
                                 <div class="row mb-3">
-                                    <label for="file_NO" class="col-md-4 col-form-label text-md-end">{{ __('رقم القسط') }}</label>
+                                    <label for="file_NO" class="col-md-4 col-form-label text-md-end">{{ __('رقم الملف') }}</label>
 
                                     <div class="col-md-6">
                                         <input id="file_NO" type="text" class="form-control @error('file_NO') is-invalid @enderror" name="file_NO" value="{{ old('file_NO') }}" required>

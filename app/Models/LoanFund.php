@@ -13,6 +13,7 @@ class LoanFund extends Model
     protected $fillable = [
         'loan_amount',
         'amount',
+        'is_delete'
     ];
 
     public function getCreatedAtAttribute($value)

@@ -8,7 +8,7 @@
         <th scope="col">اسم الزبون</th>
         <th scope="col">الصادر</th>
         <th scope="col">الوارد</th>
-        @foreach($files as $key => $file)
+        @foreach($files->where('is_delete',0) as $key => $file)
 
         @if($file->updated_by == null)
         @else
@@ -20,7 +20,7 @@
 
     </thead>
     <tbody>
-    @foreach($files as $key => $file)
+    @foreach($files->where('is_delete',0) as $key => $file)
         <tr>
             <th>{{++$key}}</th>
             <td>{{$file->UserFile->name}}</td>

@@ -10,7 +10,7 @@
 
     </thead>
     <tbody>
-    @foreach($expenditures as $key => $expenditure)
+    @foreach($expenditures->where('is_delete',0) as $key => $expenditure)
         <tr>
             <th>{{++$key}}</th>
             <td>{{$expenditure->amount_spent_ILS}}</td>

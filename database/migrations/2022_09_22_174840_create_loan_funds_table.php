@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->float('loan_amount')->default(0);
             $table->float('amount')->default(0);
+            $table->boolean('is_delete')->default(false);
             $table->timestamps();
         });
     }

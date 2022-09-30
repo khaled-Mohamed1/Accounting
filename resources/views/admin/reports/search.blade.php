@@ -78,14 +78,14 @@
 
                                 <tr>
                                     <th scope="col">دولار</th>
-                                    <th colspan="2">{{$funds->sum('financial_USD')}}</th>
-                                    <th class="table-active">{{$funds->sum('financial_amount_USD') }}</th>
+                                    <th colspan="2">{{$funds->where('is_delete',0)->sum('financial_USD')}}</th>
+                                    <th class="table-active">{{$funds->where('is_delete',0)->sum('financial_amount_USD') }}</th>
                                 </tr>
 
                                 <tr>
                                     <th scope="col">شيكل</th>
-                                    <th colspan="2">{{$funds->sum('financial_ILS')}}</th>
-                                    <th class="table-active">{{$funds->sum('financial_amount_ILS') }}</th>
+                                    <th colspan="2">{{$funds->where('is_delete',0)->sum('financial_ILS')}}</th>
+                                    <th class="table-active">{{$funds->where('is_delete',0)->sum('financial_amount_ILS') }}</th>
                                 </tr>
 
 
@@ -112,14 +112,14 @@
 
                                 <tr>
                                     <th scope="col">صادر</th>
-                                    <th colspan="2">{{$reports->where('remittance_type','صادر')->sum('delivery_USD')}}</th>
-                                    <th colspan="2">{{$reports->where('remittance_type','صادر')->sum('delivery_ILS')}}</th>
+                                    <th colspan="2">{{$reports->where('remittance_type','صادر')->where('is_delete',0)->sum('delivery_USD')}}</th>
+                                    <th colspan="2">{{$reports->where('remittance_type','صادر')->where('is_delete',0)->sum('delivery_ILS')}}</th>
                                 </tr>
 
                                 <tr>
                                     <th scope="col">وارد</th>
-                                    <th colspan="2">{{$reports->where('remittance_type','وارد')->sum('delivery_USD')}}</th>
-                                    <th colspan="2">{{$reports->where('remittance_type','وارد')->sum('delivery_ILS')}}</th>
+                                    <th colspan="2">{{$reports->where('remittance_type','وارد')->where('is_delete',0)->sum('delivery_USD')}}</th>
+                                    <th colspan="2">{{$reports->where('remittance_type','وارد')->where('is_delete',0)->sum('delivery_ILS')}}</th>
                                 </tr>
 
 
@@ -211,7 +211,7 @@
                             </thead>
                             <tbody>
                             @foreach($reports as $key => $report)
-                                <tr>
+                                <tr class="{{$report->is_delete == 1 ? 'table-danger': ''}}">
                                     <th>{{++$key}}</th>
                                     <td>
                                         <figure>
@@ -235,32 +235,37 @@
                                     <td>{{$report->amount}}</td>
                                     <td>{{$report->delivery_USD}}</td>
                                     <td>{{$report->delivery_ILS}}</td>
-                                    <td class="table-active test{{$report->id}}">{{$report->profit_USD}}</td>
-                                    <td class="table-active testt{{$report->id}}">{{$report->profit_ILS}}</td>
-                                    <form action="" method="POST" class="test" id="profit{{$report->id}}">
-                                        @csrf
-                                        <input type="hidden" name="report_id" id="report_id{{$report->id}}" value="{{$report->id}}">
-                                        <td>
-                                            <input id="percent{{$report->id}}" name="percent" class="form-control me-2 " type="number" min="0"
-                                                   value="{{$report->percent == 'null' ? '': $report->percent}}">
-
-                                        </td>
-                                        <td>
-                                            <input id="numerical{{$report->id}}" name="numerical" class="form-control me-2 " type="number" min="0"
-                                                   value="{{$report->numerical == 'null' ? '': $report->numerical}}">
-
-                                        </td>
-                                    </form>
-                                    <td>
-                                        <a href="{{route('admin.report.edit',$report->id)}}" class="btn btn-primary"><i class="las la-edit"></i></a>
-                                    </td>
-                                    <td>
-                                        <form action="{{route('admin.report.delete', $report->id)}}" method="POST">
+                                    @if($report->is_delete == 1)
+                                        <td colspan="6" class="text-center">تم الحذف</td>
+                                    @else
+                                        <td class="table-active test{{$report->id}}">{{$report->profit_USD}}</td>
+                                        <td class="table-active testt{{$report->id}}">{{$report->profit_ILS}}</td>
+                                        <form action="" method="POST" class="test" id="profit{{$report->id}}">
                                             @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger" onclick="return confirm('هل تريد هذه الحوالة')" type="submit"><i class="las la-times"></i></button>
+                                            <input type="hidden" name="report_id" id="report_id{{$report->id}}" value="{{$report->id}}">
+                                            <td>
+                                                <input id="percent{{$report->id}}" name="percent" class="form-control me-2 " type="number" min="0"
+                                                       value="{{$report->percent == 'null' ? '': $report->percent}}">
+
+                                            </td>
+                                            <td>
+                                                <input id="numerical{{$report->id}}" name="numerical" class="form-control me-2 " type="number" min="0"
+                                                       value="{{$report->numerical == 'null' ? '': $report->numerical}}">
+
+                                            </td>
                                         </form>
-                                    </td>
+                                        <td>
+                                            <a href="{{route('admin.report.edit',$report->id)}}" class="btn btn-primary"><i class="las la-edit"></i></a>
+                                        </td>
+                                        <td>
+                                            <form action="{{route('admin.report.delete', $report->id)}}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger" onclick="return confirm('هل تريد هذه الحوالة')" type="submit"><i class="las la-times"></i></button>
+                                            </form>
+                                        </td>
+                                    @endif
+
                                 </tr>
                             @endforeach
                             </tbody>

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('client_name')->nullable();
             $table->float('outgoing')->default('0');
             $table->float('incoming')->default('0');
+            $table->boolean('is_delete')->default(false);
             $table->bigInteger('updated_by')->unsigned()->nullable();
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

@@ -26,9 +26,10 @@ return new class extends Migration
             $table->float('delivery_USD')->default('0');
             $table->float('profit_ILS')->default('0');
             $table->float('profit_USD')->default('0');
-            $table->float('percent')->default('0');
-            $table->float('numerical')->default('0');
+            $table->string('percent')->default('0');
+            $table->string('numerical')->default('0');
             $table->float('dollar')->default('0');
+            $table->boolean('is_delete')->default(false);
             $table->bigInteger('updated_by')->unsigned()->nullable();
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

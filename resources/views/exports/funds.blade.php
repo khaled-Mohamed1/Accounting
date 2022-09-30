@@ -10,7 +10,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($funds as $key => $fund)
+    @foreach($funds->where('is_delete',0) as $key => $fund)
         <tr>
             <th>{{++$key}}</th>
             <td>{{$fund->financial_USD}}</td>

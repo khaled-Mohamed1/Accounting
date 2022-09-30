@@ -29,7 +29,8 @@ class Report extends Model
         'percent',
         'numerical',
         'dollar',
-        'updated_by'
+        'updated_by',
+        'is_delete'
     ];
 
     public function UserReport(): \Illuminate\Database\Eloquent\Relations\BelongsTo

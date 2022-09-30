@@ -42,13 +42,13 @@
                                         {{$loans->sum('loan_amount')}}
                                     </td>
                                     <td>
-                                        {{$files->sum('incoming')}}
+                                        {{$files->where('is_delete',0)->sum('incoming')}}
                                     </td>
                                     <td class="table-active">
-                                        {{$files->sum('outgoing')}}
+                                        {{$files->where('is_delete',0)->sum('outgoing')}}
                                     </td>
                                     <td>
-                                        {{$loans->sum('loan_amount') - $files->sum('outgoing')}}
+                                        {{$loans->where('is_delete',0)->sum('loan_amount') - $files->where('is_delete',0)->sum('outgoing')}}
                                     </td>
                                 </tr>
 
@@ -139,7 +139,7 @@
                             </thead>
                             <tbody>
                                 @foreach($files as $key => $file)
-                                    <tr>
+                                    <tr class="{{$file->is_delete == 1 ? 'table-danger': ''}}">
                                         <th>{{++$key}}</th>
                                         <td>
                                             <figure>
@@ -159,16 +159,21 @@
                                         <td>{{$file->client_name}}</td>
                                         <td>{{$file->outgoing}}</td>
                                         <td>{{$file->incoming}}</td>
-                                        <td>
-                                            <a href="{{route('admin.file.edit',$file->id)}}" class="btn btn-primary"><i class="las la-edit"></i></a>
-                                        </td>
-                                        <td>
-                                            <form action="{{route('admin.file.delete', $file->id)}}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="btn btn-danger" onclick="return confirm('هل تريد هذا القسط المالي')" type="submit"><i class="las la-times"></i></button>
-                                            </form>
-                                        </td>
+                                        @if($file->is_delete == 1)
+                                            <td colspan="2" class="text-center">تم الحذف</td>
+                                        @else
+                                            <td>
+                                                <a href="{{route('admin.file.edit',$file->id)}}" class="btn btn-primary"><i class="las la-edit"></i></a>
+                                            </td>
+                                            <td>
+                                                <form action="{{route('admin.file.delete', $file->id)}}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger" onclick="return confirm('هل تريد هذا القسط المالي')" type="submit"><i class="las la-times"></i></button>
+                                                </form>
+                                            </td>
+                                        @endif
+
                                     </tr>
                                 @endforeach
                             </tbody>
