@@ -129,7 +129,8 @@ class LoanFundController extends Controller
             return redirect()->back()->with('danger', 'يجب ادخال مبلغ للإتمام العملية');
         }
 
-        return redirect()->route('admin.loan_funds.index')->with('success', 'تم تعديل صندوق مالي');    }
+        return redirect()->route('admin.loan_funds.index')->with('success', 'تم تعديل صندوق مالي');
+    }
 
     /**
      * Remove the specified resource from storage.

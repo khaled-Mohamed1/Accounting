@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Activity_log;
 use App\Models\Expenditure;
 use App\Models\FinancialFund;
+use App\Models\LoanFund;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,6 +23,14 @@ class HomeController extends Controller
     public function index()
     {
         $users = User::where('is_admin','0')->latest()->get();
+        $fund = FinancialFund::where('is_delete',0)->whereDate('created_at', Carbon::today())->get();
+        if ($fund->isEmpty()) {
+            FinancialFund::create();
+        }
+        $loan = LoanFund::where('is_delete',0)->whereDate('created_at', Carbon::today())->get();
+        if ($loan->isEmpty()) {
+            LoanFund::create();
+        }
         return view('admin/home',compact('users'));
     }
 

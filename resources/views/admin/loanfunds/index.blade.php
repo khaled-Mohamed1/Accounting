@@ -70,9 +70,9 @@
                             <button class="btn btn-success" type="submit">بحث</button>
                         </form>
 
-                        <form class="d-flex">
-                            <a href="{{route('admin.create-loan_fund')}}" class="btn btn-success" type="button">اضافة</a>
-                        </form>
+{{--                        <form class="d-flex">--}}
+{{--                            <a href="{{route('admin.create-loan_fund')}}" class="btn btn-success" type="button">اضافة</a>--}}
+{{--                        </form>--}}
 
                     </div>
 

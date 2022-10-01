@@ -36,7 +36,7 @@
                                     <label for="loan_amount" class="col-md-4 col-form-label text-md-end">{{ __('المبلغ بالشيكل') }}</label>
 
                                     <div class="col-md-6">
-                                        <input id="loan_amount" type="text" class="form-control @error('loan_amount') is-invalid @enderror" name="loan_amount" value="{{ $loan->loan_amount}}" autofocus>
+                                        <input id="loan_amount" type="text" class="form-control @error('loan_amount') is-invalid @enderror" name="loan_amount" autofocus>
 
                                         @error('loan_amount')
                                         <span class="invalid-feedback" role="alert">

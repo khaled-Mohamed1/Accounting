@@ -37,31 +37,15 @@
 
                                 <tr>
                                     <th scope="col">دولار</th>
-                                    <th colspan="2">{{$funds->where('is_delete',0)->sum('financial_USD')}}</th>
-                                    <th class="table-active">{{$funds->where('is_delete',0)->sum('financial_amount_USD') }}</th>
+                                    <th colspan="2">{{$fund->where('is_delete',0)->sum('financial_USD')}}</th>
+                                    <th class="table-active">{{$fund->where('is_delete',0)->sum('financial_amount_USD') }}</th>
                                 </tr>
 
                                 <tr>
                                     <th scope="col">شيكل</th>
-                                    <th colspan="2">{{$funds->where('is_delete',0)->sum('financial_ILS')}}</th>
-                                    <th class="table-active">{{$funds->where('is_delete',0)->sum('financial_amount_ILS') }}</th>
+                                    <th colspan="2">{{$fund->where('is_delete',0)->sum('financial_ILS')}}</th>
+                                    <th class="table-active">{{$fund->where('is_delete',0)->sum('financial_amount_ILS') }}</th>
                                 </tr>
-
-                                {{--                                <tr>--}}
-                                {{--                                    <th scope="col">دولار</th>--}}
-                                {{--                                    <th colspan="2">{{$funds->sum('financial_USD')}}</th>--}}
-                                {{--                                    <th class="table-active">{{$funds->sum('financial_USD')--}}
-                                {{--                                        - $reports->where('remittance_type','صادر')->where('currency_type','دولار')->sum('amount')--}}
-                                {{--                                         + $reports->where('remittance_type','وارد')->where('currency_type','دولار')->sum('amount')}}</th>--}}
-                                {{--                                </tr>--}}
-
-                                {{--                                <tr>--}}
-                                {{--                                    <th scope="col">شيكل</th>--}}
-                                {{--                                    <th colspan="2">{{$funds->sum('financial_ILS')}}</th>--}}
-                                {{--                                    <th class="table-active">{{$funds->sum('financial_ILS')--}}
-                                {{--                                        - $reports->where('remittance_type','صادر')->where('currency_type','شيكل')->sum('amount')--}}
-                                {{--                                         + $reports->where('remittance_type','وارد')->where('currency_type','شيكل')->sum('amount')}}</th>--}}
-                                {{--                                </tr>--}}
 
 
                                 </tbody>

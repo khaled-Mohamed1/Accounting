@@ -22,9 +22,7 @@ class FileController extends Controller
     public function index()
     {
         $loans = LoanFund::whereDate('created_at', Carbon::today())->get();
-//        $loans = LoanFund::whereMonth('created_at', date('m'))
-//            ->whereYear('created_at', date('Y'))->get();
-        $files = auth()->user()->files()->whereDate('created_at', Carbon::today())->latest()->paginate(20);;
+        $files = File::whereDate('created_at', Carbon::today())->latest()->paginate(20);;
         return view('user.files.index', compact('files','loans'));
     }
 
@@ -47,7 +45,7 @@ class FileController extends Controller
     public function store(Request $request)
     {
 
-        $loans = LoanFund::whereDate('created_at', Carbon::today())->get();
+        $loans = LoanFund::whereDate('created_at', Carbon::today())->where('is_delete',0)->get();
 //        $loans = LoanFund::whereMonth('created_at', date('m'))
 //            ->whereYear('created_at', date('Y'))->where('amount','>=',0)->get();
         if ($loans->isEmpty()) {

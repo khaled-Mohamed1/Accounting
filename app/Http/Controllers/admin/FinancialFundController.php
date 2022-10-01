@@ -129,7 +129,8 @@ class FinancialFundController extends Controller
                     ]
                 );
                 $fund->update([
-                    'financial_amount_USD' => $request->financial_amount_USD,
+                    'financial_amount_USD' => $fund->financial_amount_USD + $request->financial_amount_USD,
+                    'financial_USD' => $fund->financial_USD + $request->financial_amount_USD,
                 ]);
             }
 
@@ -143,14 +144,16 @@ class FinancialFundController extends Controller
                     ]
                 );
                 $fund->update([
-                    'financial_amount_ILS' => $request->financial_amount_ILS,
+                    'financial_amount_ILS' =>$fund->financial_amount_ILS + $request->financial_amount_ILS,
+                    'financial_ILS' =>$fund->financial_ILS + $request->financial_amount_ILS,
                 ]);
             }
         } else {
             return redirect()->back()->with('danger', 'يجب ادخال مبلغ للإتمام العملية');
         }
 
-        return redirect()->route('admin.funds.index')->with('success', 'تم تعديل صندوق مالي');    }
+        return redirect()->route('admin.funds.index')->with('success', 'تم تعديل صندوق مالي');
+    }
 
     /**
      * Remove the specified resource from storage.

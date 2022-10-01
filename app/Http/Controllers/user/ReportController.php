@@ -4,6 +4,7 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\FinancialFund;
+use App\Models\LoanFund;
 use App\Models\Report;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
@@ -21,9 +22,16 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $funds = FinancialFund::whereDate('created_at', Carbon::today())->latest()->get();
-        $reports = auth()->user()->reports()->whereDate('created_at', Carbon::today())->latest()->paginate(20);
-        return view('user.reports.index', compact('reports','funds'));
+        $fund = FinancialFund::where('is_delete',0)->whereDate('created_at', Carbon::today())->get();
+        if ($fund->isEmpty()) {
+            FinancialFund::create();
+        }
+        $loan = LoanFund::where('is_delete',0)->whereDate('created_at', Carbon::today())->get();
+        if ($loan->isEmpty()) {
+            LoanFund::create();
+        }
+        $reports = Report::whereDate('created_at', Carbon::today())->latest()->paginate(20);
+        return view('user.reports.index', compact('reports','fund'));
     }
 
     /**
@@ -46,10 +54,8 @@ class ReportController extends Controller
     {
 
         $fund = FinancialFund::whereDate('created_at', Carbon::today())
-            ->where('is_delete',0)->get();
-        if ($fund->isEmpty()) {
-            FinancialFund::create();
-        }
+            ->where('is_delete',0)->get()->last();
+
 
         $request->validate(
             [
@@ -112,57 +118,24 @@ class ReportController extends Controller
 
             if(!empty($request->input('delivery_USD')))
             {
-                $allfund_USD = FinancialFund::whereDate('created_at', Carbon::today())->where('is_delete',0)->latest()->get();
-                $remain_USD = $request->delivery_USD;
-                foreach ($allfund_USD as $key => $fund){
-                    $fund->decrement('financial_amount_USD', $remain_USD);
-                    break;
-                }
+                $fund->decrement('financial_amount_USD', $request->delivery_USD);
             }
 
             if(!empty($request->input('delivery_ILS')))
             {
-                $allfund_ILS = FinancialFund::whereDate('created_at', Carbon::today())->where('is_delete',0)->latest()->get();
-                $remain_ILS = $request->delivery_ILS;
-                foreach ($allfund_ILS as $key => $fund){
-                    $fund->decrement('financial_amount_ILS', $remain_ILS);
-                    break;
-                }
+                $fund->decrement('financial_amount_ILS', $request->delivery_ILS);
             }
-//            if($request->currency_type == 'دولار'){
-//                $fund = FinancialFund::whereDate('created_at', Carbon::today())
-//                    ->get()->last();
-//                $fund->decrement('financial_amount_USD', $request->amount);
-//            }
-//
-//            if($request->currency_type == 'شيكل'){
-//                $fund = FinancialFund::whereDate('created_at', Carbon::today())
-//                    ->get()->last();
-//                $fund->decrement('financial_amount_ILS', $request->amount);
-//            }
-
-
-
 
         }elseif($request->remittance_type == 'وارد'){
-            $fund = FinancialFund::whereDate('created_at', Carbon::today())
-                ->where('is_delete',0)->get()->last();
+
             if(!empty($request->input('delivery_USD')))
             {
                 $fund->increment('financial_amount_USD', $request->delivery_USD);
             }
-
             if(!empty($request->input('delivery_ILS')))
             {
                 $fund->increment('financial_amount_ILS', $request->delivery_ILS);
             }
-//            if($request->currency_type == 'دولار'){
-//                    $fund->increment('financial_amount_USD', $request->amount);
-//            }
-//
-//            if($request->currency_type == 'شيكل'){
-//                    $fund->increment('financial_amount_ILS', $request->amount);
-//            }
         }
 
         return redirect()->route('user.reports.index')->with('success', 'تم اضافة التقرير');

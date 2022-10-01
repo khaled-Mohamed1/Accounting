@@ -39,7 +39,7 @@
                                 <tr>
                                     <th scope="row">-</th>
                                     <td>
-                                        {{$loans->sum('loan_amount')}}
+                                        {{$loan->where('is_delete',0)->sum('loan_amount')}}
                                     </td>
                                     <td>
                                         {{$files->where('is_delete',0)->sum('incoming')}}
@@ -48,7 +48,7 @@
                                         {{$files->where('is_delete',0)->sum('outgoing')}}
                                     </td>
                                     <td>
-                                        {{$loans->where('is_delete',0)->sum('loan_amount') - $files->where('is_delete',0)->sum('outgoing')}}
+                                        {{$loan->where('is_delete',0)->sum('loan_amount') - $files->where('is_delete',0)->sum('outgoing')}}
                                     </td>
                                 </tr>
 

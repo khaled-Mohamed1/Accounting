@@ -35,7 +35,7 @@
                                     <label for="financial_amount_USD" class="col-md-4 col-form-label text-md-end">{{ __('المبلغ بالدولار') }}</label>
 
                                     <div class="col-md-6">
-                                        <input id="financial_amount_USD" type="text" class="form-control @error('financial_amount_USD') is-invalid @enderror" name="financial_amount_USD" value="{{ $fund->financial_amount_USD }}" autofocus>
+                                        <input id="financial_amount_USD" type="text" class="form-control @error('financial_amount_USD') is-invalid @enderror" name="financial_amount_USD" autofocus>
 
                                         @error('financial_amount_USD')
                                         <span class="invalid-feedback" role="alert">
@@ -49,7 +49,7 @@
                                     <label for="financial_amount_ILS" class="col-md-4 col-form-label text-md-end">{{ __('المبلغ بالشيكل') }}</label>
 
                                     <div class="col-md-6">
-                                        <input id="financial_amount_ILS" type="text" class="form-control @error('financial_amount_ILS') is-invalid @enderror" name="financial_amount_ILS" value="{{ $fund->financial_amount_ILS  }}" autofocus>
+                                        <input id="financial_amount_ILS" type="text" class="form-control @error('financial_amount_ILS') is-invalid @enderror" name="financial_amount_ILS" autofocus>
 
                                         @error('financial_amount_ILS')
                                         <span class="invalid-feedback" role="alert">
