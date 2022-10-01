@@ -123,20 +123,20 @@ class FileController extends Controller
         }
 
 
-        if(!empty($request->input('incoming'))) {
-            if($request->incoming != $file->incoming){
-                $loan = LoanFund::whereMonth('created_at', date('m'))
-                    ->whereYear('created_at', date('Y'))->where('is_delete',0)->get()->last();
-                if($request->incoming > $file->incoming){
-                    $remain_incoming = $request->incoming - $file->incoming;
-                    $loan->increment('amount', $remain_incoming);
-
-                }elseif($request->incoming < $file->incoming){
-                    $remain_incoming =  $file->incoming - $request->incoming;
-                    $loan->decrement('amount', $remain_incoming);
-                }
-            }
-        }
+//        if(!empty($request->input('incoming'))) {
+//            if($request->incoming != $file->incoming){
+//                $loan = LoanFund::whereMonth('created_at', date('m'))
+//                    ->whereYear('created_at', date('Y'))->where('is_delete',0)->get()->last();
+//                if($request->incoming > $file->incoming){
+//                    $remain_incoming = $request->incoming - $file->incoming;
+//                    $loan->increment('amount', $remain_incoming);
+//
+//                }elseif($request->incoming < $file->incoming){
+//                    $remain_incoming =  $file->incoming - $request->incoming;
+//                    $loan->decrement('amount', $remain_incoming);
+//                }
+//            }
+//        }
 
         File::where('id',$id)->update([
             'file_NO' => $request->file_NO,
@@ -162,7 +162,7 @@ class FileController extends Controller
         $loan = LoanFund::whereMonth('created_at', date('m'))
             ->whereYear('created_at', date('Y'))->where('is_delete',0)->get()->last();
         $loan->increment('amount', $file->outgoing);
-        $loan->decrement('amount', $file->incoming);
+//        $loan->decrement('amount', $file->incoming);
         $file->update([
             'is_delete'=>true
         ]);

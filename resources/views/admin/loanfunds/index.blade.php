@@ -114,10 +114,23 @@
                                     @endif
 
                                 </tr>
+                                <tr>
+                                    <td class="text-end" colspan="3">
+                                        @foreach($loan->notifys as $notify)
+                                            <figure>
+                                                <blockquote >
+                                                    <p></p>
+                                                </blockquote>
+                                                    <figcaption class="blockquote-footer">
+                                                        تم اضافة قيمة مقدارها <span class="fs-6 text-gray fw-bolder text-decoration-underline">{{$notify->new_amount_ILS - $notify->old_amount_ILS}}</span> على القيمة القديمة <span class="fs-6 text-gray fw-bolder text-decoration-underline">{{$notify->old_amount_ILS}}</span>  <span class="fs-6 text-info fw-bolder">(دولار)</span>
+                                                    </figcaption>
+                                            </figure>
+                                        @endforeach
+                                    </td>
+                                </tr>
                             @endforeach
                             </tbody>
                         </table>
-                        {{$loans->links()}}
                     </div>
                 </div>
             </div>

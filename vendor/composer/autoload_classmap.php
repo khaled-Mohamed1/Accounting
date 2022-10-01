@@ -51,6 +51,8 @@ return array(
     'App\\Models\\File' => $baseDir . '/app/Models/File.php',
     'App\\Models\\FinancialFund' => $baseDir . '/app/Models/FinancialFund.php',
     'App\\Models\\LoanFund' => $baseDir . '/app/Models/LoanFund.php',
+    'App\\Models\\NotifyFund' => $baseDir . '/app/Models/NotifyFund.php',
+    'App\\Models\\NotifyLoan' => $baseDir . '/app/Models/NotifyLoan.php',
     'App\\Models\\Report' => $baseDir . '/app/Models/Report.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',

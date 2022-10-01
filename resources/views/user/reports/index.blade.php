@@ -174,7 +174,8 @@
                                                 </figcaption>
                                             @endif
                                         </figure>
-                                    </td>                                    <td>{{$report->created_at}}</td>
+                                    </td>
+                                    <td>{{$report->created_at}}</td>
                                     <td>{{$report->transaction_NO}}</td>
                                     <td>{{$report->remittance_type}}</td>
                                     <td>{{$report->transaction_type}}</td>

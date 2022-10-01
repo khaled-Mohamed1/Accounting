@@ -6,27 +6,21 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class FinancialFund extends Model
+class NotifyFund extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'financial_amount_ILS',
-        'financial_amount_USD',
-        'financial_ILS',
-        'financial_USD',
-        'is_delete'
+        'fund_id',
+        'old_amount_USD',
+        'new_amount_USD',
+        'old_amount_ILS',
+        'new_amount_ILS',
     ];
 
-
-    public function notifys(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function FundNotify(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasMany(NotifyFund::class,'fund_id','id');
+        return $this->belongsTo(FinancialFund::class, 'fund_id', 'id');
     }
 
     public function getCreatedAtAttribute($value)

@@ -9,6 +9,7 @@ use App\Exports\LoanFundSearchExport;
 use App\Http\Controllers\Controller;
 use App\Models\FinancialFund;
 use App\Models\LoanFund;
+use App\Models\NotifyLoan;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -26,7 +27,7 @@ class LoanFundController extends Controller
     public function index()
     {
         $loans = LoanFund::whereMonth('created_at', date('m'))
-            ->whereYear('created_at', date('Y'))->latest()->paginate(20);
+            ->whereYear('created_at', date('Y'))->latest()->get();
         return view('admin.loanfunds.index', compact('loans'));
     }
 
@@ -118,6 +119,11 @@ class LoanFundController extends Controller
                         'loan_amount.numeric' => 'يجب ادخال المبلغ بالأرقام',
                     ]
                 );
+                NotifyLoan::create([
+                    'loan_id'=>$loan->id,
+                    'old_amount_ILS'=>$loan->amount,
+                    'new_amount_ILS'=>$loan->amount + $request->loan_amount,
+                ]);
                 $loan->update([
                     'amount' => $loan->amount + $request->loan_amount,
                     'loan_amount' => $loan->loan_amount +  $request->loan_amount,

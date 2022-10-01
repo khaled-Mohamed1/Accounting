@@ -115,12 +115,30 @@
                                             </form>
                                         </td>
                                     @endif
-
+                                </tr>
+                                <tr>
+                                    <td class="text-end" colspan="3">
+                                        @foreach($fund->notifys as $notify)
+                                            <figure>
+                                                <blockquote >
+                                                    <p></p>
+                                                </blockquote>
+                                                @if($notify->old_amount_USD == null)
+                                                    <figcaption class="blockquote-footer">
+                                                        تم اضافة قيمة مقدارها <span class="fs-6 text-gray fw-bolder text-decoration-underline">{{$notify->new_amount_ILS - $notify->old_amount_ILS}}</span> على القيمة القديمة <span class="fs-6 text-gray fw-bolder text-decoration-underline">{{$notify->old_amount_ILS}}</span> <span class="fs-6 text-info fw-bolder">(شيكل)</span>
+                                                    </figcaption>
+                                                @else
+                                                    <figcaption class="blockquote-footer">
+                                                        تم اضافة قيمة مقدارها <span class="fs-6 text-gray fw-bolder text-decoration-underline">{{$notify->new_amount_USD - $notify->old_amount_USD}}</span> على القيمة القديمة <span class="fs-6 text-gray fw-bolder text-decoration-underline">{{$notify->old_amount_USD}}</span>  <span class="fs-6 text-info fw-bolder">(دولار)</span>
+                                                    </figcaption>
+                                                @endif
+                                            </figure>
+                                        @endforeach
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
-                        {{$funds->links()}}
                     </div>
                 </div>
             </div>

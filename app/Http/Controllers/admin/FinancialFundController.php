@@ -7,6 +7,8 @@ use App\Exports\FinancialFundSearchExport;
 use App\Exports\ReportExport;
 use App\Http\Controllers\Controller;
 use App\Models\FinancialFund;
+use App\Models\NotifyFund;
+use App\Models\Report;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -23,7 +25,7 @@ class FinancialFundController extends Controller
      */
     public function index()
     {
-        $funds = FinancialFund::whereDate('created_at', Carbon::today())->latest()->paginate(20);
+        $funds = FinancialFund::whereDate('created_at', Carbon::today())->latest()->get();
         return view('admin.funds.index', compact('funds'));
 
     }
@@ -128,10 +130,17 @@ class FinancialFundController extends Controller
                         'financial_amount.numeric' => 'يجب ادخال المبلغ بالأرقام',
                     ]
                 );
+                NotifyFund::create([
+                    'fund_id'=>$fund->id,
+                    'old_amount_USD'=>$fund->financial_USD,
+                    'new_amount_USD'=>$fund->financial_USD + $request->financial_amount_USD,
+                ]);
+
                 $fund->update([
                     'financial_amount_USD' => $fund->financial_amount_USD + $request->financial_amount_USD,
                     'financial_USD' => $fund->financial_USD + $request->financial_amount_USD,
                 ]);
+
             }
 
             if (!empty($request->input('financial_amount_ILS'))) {
@@ -143,6 +152,12 @@ class FinancialFundController extends Controller
                         'financial_amount_ILS.numeric' => 'يجب ادخال المبلغ بالأرقام',
                     ]
                 );
+                NotifyFund::create([
+                    'fund_id'=>$fund->id,
+                    'old_amount_ILS'=>$fund->financial_ILS,
+                    'new_amount_ILS'=>$fund->financial_ILS + $request->financial_amount_ILS,
+                ]);
+
                 $fund->update([
                     'financial_amount_ILS' =>$fund->financial_amount_ILS + $request->financial_amount_ILS,
                     'financial_ILS' =>$fund->financial_ILS + $request->financial_amount_ILS,

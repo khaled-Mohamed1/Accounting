@@ -16,6 +16,11 @@ class LoanFund extends Model
         'is_delete'
     ];
 
+    public function notifys(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(NotifyLoan::class,'loan_id','id');
+    }
+
     public function getCreatedAtAttribute($value)
     {
         return Carbon::parse($value)->timezone('Asia/Gaza')->format('Y-m-d H:i');

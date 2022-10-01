@@ -21,9 +21,9 @@ class FileController extends Controller
      */
     public function index()
     {
-        $loans = LoanFund::whereDate('created_at', Carbon::today())->get();
+        $loan = LoanFund::where('is_delete',0)->whereDate('created_at', Carbon::today())->get();
         $files = File::whereDate('created_at', Carbon::today())->latest()->paginate(20);;
-        return view('user.files.index', compact('files','loans'));
+        return view('user.files.index', compact('files','loan'));
     }
 
     /**
@@ -45,12 +45,8 @@ class FileController extends Controller
     public function store(Request $request)
     {
 
-        $loans = LoanFund::whereDate('created_at', Carbon::today())->where('is_delete',0)->get();
-//        $loans = LoanFund::whereMonth('created_at', date('m'))
-//            ->whereYear('created_at', date('Y'))->where('amount','>=',0)->get();
-        if ($loans->isEmpty()) {
-            LoanFund::create();
-        }
+        $loans = LoanFund::whereDate('created_at', Carbon::today())->where('is_delete',0)->get()->last();
+
         $request->validate(
             [
                 'file_NO' => ['required'],
@@ -77,10 +73,10 @@ class FileController extends Controller
                  ->last()->decrement('amount', $request->outgoing);
         }
 
-        if(!empty($request->input('incoming'))) {
-            LoanFund::whereDate('created_at', Carbon::today())->where('is_delete',0)->get()
-                ->last()->increment('amount', $request->incoming);
-        }
+//        if(!empty($request->input('incoming'))) {
+//            LoanFund::whereDate('created_at', Carbon::today())->where('is_delete',0)->get()
+//                ->last()->increment('amount', $request->incoming);
+//        }
 
         File::create([
             'user_id' => auth()->user()->id,
@@ -169,20 +165,20 @@ class FileController extends Controller
             }
 
 
-            if(!empty($request->input('incoming'))) {
-                if($request->incoming != $file->incoming){
-                    $loan = LoanFund::whereMonth('created_at', date('m'))
-                        ->whereYear('created_at', date('Y'))->where('is_delete',0)->get()->last();
-                    if($request->incoming > $file->incoming){
-                        $remain_incoming = $request->incoming - $file->incoming;
-                        $loan->increment('amount', $remain_incoming);
-
-                    }elseif($request->incoming < $file->incoming){
-                        $remain_incoming =  $file->incoming - $request->incoming;
-                        $loan->decrement('amount', $remain_incoming);
-                    }
-                }
-            }
+//            if(!empty($request->input('incoming'))) {
+//                if($request->incoming != $file->incoming){
+//                    $loan = LoanFund::whereMonth('created_at', date('m'))
+//                        ->whereYear('created_at', date('Y'))->where('is_delete',0)->get()->last();
+//                    if($request->incoming > $file->incoming){
+//                        $remain_incoming = $request->incoming - $file->incoming;
+//                        $loan->increment('amount', $remain_incoming);
+//
+//                    }elseif($request->incoming < $file->incoming){
+//                        $remain_incoming =  $file->incoming - $request->incoming;
+//                        $loan->decrement('amount', $remain_incoming);
+//                    }
+//                }
+//            }
 
             File::where('id',$id)->update([
                 'file_NO' => $request->file_NO,
@@ -212,7 +208,7 @@ class FileController extends Controller
             $loan = LoanFund::whereMonth('created_at', date('m'))
                 ->whereYear('created_at', date('Y'))->where('is_delete',0)->get()->last();
             $loan->increment('amount', $file->outgoing);
-            $loan->decrement('amount', $file->incoming);
+//            $loan->decrement('amount', $file->incoming);
             $file->update([
                 'is_delete'=>true
             ]);
